@@ -1,4 +1,5 @@
 FROM tomcat:9.0
+RUN apt update
 RUN apt install default-jdk git maven -y
 RUN cd /tmp; git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
 RUN mvn package /tmp/boxfuse-sample-java-war-hello/pom.xml
