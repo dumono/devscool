@@ -1,0 +1,24 @@
+---
+fruits:
+    - apple
+    - orange
+    - mango
+    - lemon
+names:
+    - Ivan
+    - Oleg
+    - Dumon
+    - Alex
+
+comment1:
+    - name: Ivan
+    - job: admin
+    - skills:
+          - python
+          - c++
+comment2:
+    - name: Serge
+    - job: DevOps
+    - skills:
+          - docker
+          - bash
