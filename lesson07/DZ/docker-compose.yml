@@ -6,9 +6,9 @@ services:
             - "mytarget:/work/boxfuse-sample-java-war-hello/target"
 
     myapp:
-        image: tomee:8-jre-8.0.4-microprofile
+        image: tomcat:8.5-alpine
         volumes:
-            - "mytarget:/usr/local/tomee/webapps"
+            - "mytarget:/usr/local/tomcat/webapps"
         ports:
             - "8080:8080"
         depends_on:
