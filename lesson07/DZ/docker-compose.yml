@@ -1,12 +1,22 @@
-version: '3'
+version: '3.8'
 services:
     cont-build:
         build: build-app
-        volumes: ./target:/work/boxfuse-sample-java-war-hello/target/
-        
+        volumes:
+            - "mytarget:/work/boxfuse-sample-java-war-hello/target"
+
     myapp:
         image: tomee:8-jre-8.0.4-microprofile
-        volumes: ./target/hello-1.0.war:/usr/local/tomee/webapps/hello-1.0.war
-        ports: 8080:8080
+        volumes:
+            - "mytarget:/usr/local/tomee/webapps"
+        ports:
+            - "8080:8080"
         depends_on:
             - cont-build
+volumes:
+    mytarget:
+        driver: local
+        driver_opts:
+            type: 'none'
+            o: 'bind'
+            device: './target'
