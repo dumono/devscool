@@ -1,0 +1,61 @@
+---
+- name: maven 
+  hosts: maven
+  become: yes
+  
+  tasks:
+  - name: install env for maven
+    apt:
+      name: "{{ packages }}"
+      state: latest
+      update_cache: yes
+    vars:
+      packages:
+        - default-jdk 
+        - git
+        - maven
+        
+  - name: create work dir
+    file:
+      path: /work
+      owner: dumono
+      group: dumono
+      mode: 1777
+      state: directory
+
+  - name: clone repo
+    git:
+      repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git 
+      dest: /work
+    
+  - name: run build maven
+    command: mvn package -f /work/pom.xml
+    
+  - name: copy war to local
+    fetch:
+      src: /work/target/hello-1.0.war
+      dest: /tmp/hello-1.0.war
+      
+- name: tomcat 
+  hosts: tomcat
+  become: yes
+  
+  tasks:
+  - name: install tomcat
+    apt:
+      name: tomcat9
+      state: latest
+      
+  - name: copy war
+    copy:
+      src: /tmp/hello-1.0.war
+      dest: /var/lib/tomcat9/webapps/
+      owner: tomcat
+      group: tomcat
+      mode: 0644
+
+  - name: run (running)
+    service:
+      name: tomcat9
+      state: started
+      enabled: yes
