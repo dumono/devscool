@@ -1,0 +1,17 @@
+---
+- name: maven 
+  hosts: nginx
+  become: yes
+  
+  tasks:
+  - name: install nginx
+    apt:
+      name: "nginx"
+      state: latest
+      update_cache: yes
+      
+  - name: change welcome
+    replace: 
+      dest=/var/www/html/index.nginx-debian.html
+      regexp='^<h1>Welcome to nginx!</h1>'
+      replace='<h1><p><script>document.write(new Date().toLocaleDateString());</script></p></h1>'
