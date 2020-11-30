@@ -1,0 +1,28 @@
+---
+- name: nginx 
+  hosts: vms
+  become: yes
+  
+  vars:
+    source_folder: ./
+    dest_folder: /var/www/html/
+  
+  tasks:
+  - name: install nginx package
+    apt:
+      name: "nginx"
+      state: latest
+      update_cache: yes
+      
+  - name: change index.html
+    template: src={{ source_folder }}/index.j2 dest={{ dest_folder }}/index.nginx-debian.html mode=0555
+    notify:
+    - restart nginx
+    
+
+  handlers:
+  - name: restart nginx
+    service:
+      name: nginx
+      state: restarted
+        
