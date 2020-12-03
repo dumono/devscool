@@ -1,0 +1,12 @@
+---
+
+  - name: install tomcat
+    apt:
+      name: tomcat9
+      state: latest
+      
+  - name: run tomcat
+    service:
+      name: tomcat9
+      state: started
+      enabled: yes

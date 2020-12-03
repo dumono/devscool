@@ -5,3 +5,11 @@
   
   roles:
    - build
+
+- name: run app
+  hosts: prod
+  become: yes
+  
+  roles:
+   - tomcat
+   - cp_app
