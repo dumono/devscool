@@ -1,0 +1,23 @@
+---
+
+  - name: install env for maven
+    apt:
+      name: "{{ packages }}"
+      state: latest
+      update_cache: yes
+      
+  - name: create work dir
+    file:
+      path: /work
+      owner: dumono
+      group: dumono
+      mode: 1777
+      state: directory
+
+  - name: clone repo
+    git:
+      repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git 
+      dest: /work
+    
+  - name: run build maven
+    command: mvn package -f /work/pom.xml
